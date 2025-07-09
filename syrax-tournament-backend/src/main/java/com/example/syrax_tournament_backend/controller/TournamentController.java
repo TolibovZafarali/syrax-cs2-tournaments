@@ -7,6 +7,7 @@ import com.example.syrax_tournament_backend.repository.TournamentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,27 +33,28 @@ public class TournamentController {
     }
 
     @GetMapping("/{id}")
-    public TournamentDTO getTournamentById(@PathVariable Long id) {
+    public ResponseEntity<TournamentDTO> getTournamentById(@PathVariable Long id) {
         Tournament entity = tournamentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Tournament not found with id " + id));
-        return TournamentMapper.toDto(entity);
+        return ResponseEntity.ok(TournamentMapper.toDto(entity));
     }
 
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    @ResponseStatus(HttpStatus.CREATED)
-    public TournamentDTO createTournament(@Valid @RequestBody TournamentDTO dto) {
+    public ResponseEntity<TournamentDTO> createTournament(@Valid @RequestBody TournamentDTO dto) {
         Tournament toSave = TournamentMapper.toEntity(dto);
         Tournament saved  = tournamentRepository.save(toSave);
-        return TournamentMapper.toDto(saved);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(TournamentMapper.toDto(saved));
     }
 
     @PutMapping(
             path = "/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public TournamentDTO updateTournament(
+    public ResponseEntity<TournamentDTO> updateTournament(
             @PathVariable Long id,
             @Valid @RequestBody TournamentDTO dto
     ) {
@@ -62,7 +64,7 @@ public class TournamentController {
         // copy over only the non-null fields
         TournamentMapper.updateEntity(existing, dto);
         Tournament updated = tournamentRepository.save(existing);
-        return TournamentMapper.toDto(updated);
+        return ResponseEntity.ok(TournamentMapper.toDto(updated));
     }
 
     @DeleteMapping("/{id}")
