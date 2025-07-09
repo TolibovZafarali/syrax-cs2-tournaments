@@ -17,11 +17,19 @@ public class AdminDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("🔍 Attempting login for: " + username);
+
         Admin admin = adminRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Admin not found"));
+                .orElseThrow(() -> {
+                    System.out.println("❌ Admin not found");
+                    return new UsernameNotFoundException("Admin not found");
+                });
+
+        System.out.println("✅ Admin found: " + admin.getUsername());
+        System.out.println("✅ Password (hashed): " + admin.getPassword());
 
         return new User(
-                admin.getUsername(),  // should work once Lombok is recognized
+                admin.getUsername(),
                 admin.getPassword(),
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))
         );
