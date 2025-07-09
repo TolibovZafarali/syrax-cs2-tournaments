@@ -25,6 +25,7 @@ public class MatchMapper {
     }
 
     public static List<MatchDTO> toDtoList(List<Match> matches) {
+        if (matches == null) return java.util.Collections.emptyList();
         return matches.stream()
                 .map(MatchMapper::toDto)
                 .collect(Collectors.toList());

@@ -6,8 +6,6 @@ import com.example.syrax_tournament_backend.mapper.TeamMapper;
 import com.example.syrax_tournament_backend.mapper.MatchMapper;
 
 import com.example.syrax_tournament_backend.dto.TournamentDTO;
-import com.example.syrax_tournament_backend.model.Match;
-import com.example.syrax_tournament_backend.model.Team;
 import com.example.syrax_tournament_backend.model.Tournament;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,7 +64,7 @@ public class TournamentMapper {
         if (dto.getTeams() != null) {
             builder.teams(
                     dto.getTeams().stream()
-                            .map(teamDto -> Team.builder().id(teamDto.getId()).build())
+                            .map(TeamMapper::toEntity)
                             .collect(Collectors.toList())
             );
         }
@@ -74,7 +72,7 @@ public class TournamentMapper {
         if (dto.getMatches() != null) {
             builder.matches(
                     dto.getMatches().stream()
-                            .map(matchDto -> Match.builder().id(matchDto.getId()).build())
+                            .map(MatchMapper::toEntity)
                             .collect(Collectors.toList())
             );
         }
@@ -93,7 +91,7 @@ public class TournamentMapper {
         if (dto.getTeams() != null) {
             existing.setTeams(
                     dto.getTeams().stream()
-                            .map(teamDto -> Team.builder().id(teamDto.getId()).build())
+                            .map(TeamMapper::toEntity)
                             .collect(Collectors.toList())
             );
         }
@@ -101,7 +99,7 @@ public class TournamentMapper {
         if (dto.getMatches() != null) {
             existing.setMatches(
                     dto.getMatches().stream()
-                            .map(matchDto -> Match.builder().id(matchDto.getId()).build())
+                            .map(MatchMapper::toEntity)
                             .collect(Collectors.toList())
             );
         }
