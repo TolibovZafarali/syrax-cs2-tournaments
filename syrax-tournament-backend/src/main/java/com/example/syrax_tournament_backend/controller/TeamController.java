@@ -7,6 +7,7 @@ import com.example.syrax_tournament_backend.model.Tournament;
 import com.example.syrax_tournament_backend.repository.TeamRepository;
 import com.example.syrax_tournament_backend.repository.TournamentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +22,15 @@ public class TeamController {
     private final TournamentRepository tournamentRepository;
 
     @PostMapping
-    public ResponseEntity<?> createTeam(@RequestBody TeamDTO dto) {
+    public ResponseEntity<TeamDTO> createTeam(@RequestBody TeamDTO dto) {
         Tournament tournament = tournamentRepository.findById(dto.getTournamentId())
                 .orElseThrow(() -> new RuntimeException("Tournament not found"));
 
         Team team = TeamMapper.toEntity(dto, tournament);
-        return ResponseEntity.ok(teamRepository.save(team));
+        Team saved = teamRepository.save(team);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(TeamMapper.toDto(saved));
     }
 
     @GetMapping("/tournament/{tournamentId}")
