@@ -19,4 +19,6 @@ public class TeamDTO {
 
     @NotNull(message = "Tournament ID is required")
     private Long tournamentId;
+
+    private java.util.List<PlayerDTO> players;
 }

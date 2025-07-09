@@ -4,7 +4,10 @@ import lombok.Data;
 
 @Data
 public class PlayerDTO {
+    private Long id;
     private String steamId;
-    private String telegramUsername;
-    private String discordUsername;
+    private String username;
+    private String telegram;
+    private String discord;
+    private Long teamId;
 }
