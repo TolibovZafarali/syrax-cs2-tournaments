@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
 import java.util.List;
@@ -31,10 +30,7 @@ public class MatchController {
     )
     public MatchDTO getMatchById(@PathVariable Long id) {
         Match m = matchRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "Match not found with id " + id)
-                );
+                .orElseThrow(() -> new RuntimeException("Match not found with id " + id));
         return MatchMapper.toDto(m);
     }
 
@@ -58,10 +54,7 @@ public class MatchController {
             @Valid @RequestBody MatchDTO dto
     ) {
         Match existing = matchRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "Match not found with id " + id)
-                );
+                .orElseThrow(() -> new RuntimeException("Match not found with id " + id));
         MatchMapper.updateEntity(existing, dto);
         Match updated = matchRepository.save(existing);
         return MatchMapper.toDto(updated);
@@ -71,8 +64,7 @@ public class MatchController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMatch(@PathVariable Long id) {
         if (!matchRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Match not found with id " + id);
+            throw new RuntimeException("Match not found with id " + id);
         }
         matchRepository.deleteById(id);
     }
