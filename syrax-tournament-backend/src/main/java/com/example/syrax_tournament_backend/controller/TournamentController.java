@@ -68,9 +68,8 @@ public class TournamentController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTournament(@PathVariable Long id) {
-        if (!tournamentRepository.existsById(id)) {
-            throw new RuntimeException("Tournament not found with id " + id);
-        }
-        tournamentRepository.deleteById(id);
+        Tournament existing = tournamentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tournament not found with id " + id));
+        tournamentRepository.delete(existing);
     }
 }
