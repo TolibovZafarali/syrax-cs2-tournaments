@@ -16,4 +16,7 @@ public class TeamDTO {
 
     @NotNull(message = "Owner Steam ID is required")
     private String ownerSteamId;
+
+    @NotNull(message = "Tournament ID is required")
+    private Long tournamentId;
 }
