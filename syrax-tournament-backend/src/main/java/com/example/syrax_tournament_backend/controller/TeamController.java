@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -22,7 +24,7 @@ public class TeamController {
     private final TournamentRepository tournamentRepository;
 
     @PostMapping
-    public ResponseEntity<TeamDTO> createTeam(@RequestBody TeamDTO dto) {
+    public ResponseEntity<TeamDTO> createTeam(@Valid @RequestBody TeamDTO dto) {
         Tournament tournament = tournamentRepository.findById(dto.getTournamentId())
                 .orElseThrow(() -> new RuntimeException("Tournament not found"));
 
