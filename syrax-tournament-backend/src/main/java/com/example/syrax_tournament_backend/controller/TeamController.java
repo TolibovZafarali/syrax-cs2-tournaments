@@ -34,9 +34,10 @@ public class TeamController {
     }
 
     @GetMapping("/tournament/{tournamentId}")
-    public ResponseEntity<List<Team>> getTeamsByTournament(@PathVariable Long tournamentId) {
+    public ResponseEntity<List<TeamDTO>> getTeamsByTournament(@PathVariable Long tournamentId) {
         Tournament tournament = tournamentRepository.findById(tournamentId)
                 .orElseThrow(() -> new RuntimeException("Tournament not found"));
-        return ResponseEntity.ok(tournament.getTeams());
+        List<TeamDTO> teamDTOs = TeamMapper.toDtoList(tournament.getTeams());
+        return ResponseEntity.ok(teamDTOs);
     }
 }
