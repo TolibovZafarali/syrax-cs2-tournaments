@@ -3,8 +3,12 @@ package com.example.syrax_tournament_backend.controller;
 import com.example.syrax_tournament_backend.dto.PlayerDTO;
 import com.example.syrax_tournament_backend.mapper.PlayerMapper;
 import com.example.syrax_tournament_backend.model.Player;
+import com.example.syrax_tournament_backend.model.Team;
 import com.example.syrax_tournament_backend.repository.PlayerRepository;
+import com.example.syrax_tournament_backend.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,23 +19,33 @@ import java.util.List;
 public class PlayerController {
 
     private final PlayerRepository playerRepository;
+    private final TeamRepository teamRepository;
 
     @GetMapping
-    public List<PlayerDTO> getAllPlayers() {
-        return PlayerMapper.toDtoList(playerRepository.findAll());
+    public ResponseEntity<List<PlayerDTO>> getAllPlayers() {
+        List<PlayerDTO> players = PlayerMapper.toDtoList(playerRepository.findAll());
+        return ResponseEntity.ok(players);
     }
 
     @GetMapping("/{id}")
-    public PlayerDTO getPlayerById(@PathVariable Long id) {
-        Player player = playerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Player not found"));
-        return PlayerMapper.toDto(player);
+    public ResponseEntity<PlayerDTO> getPlayerById(@PathVariable Long id) {
+        return playerRepository.findById(id)
+                .map(player -> ResponseEntity.ok(PlayerMapper.toDto(player)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public PlayerDTO createPlayer(@RequestBody PlayerDTO dto) {
-        Player toSave = PlayerMapper.toEntity(dto);
+    public ResponseEntity<PlayerDTO> createPlayer(@Valid @RequestBody PlayerDTO dto) {
+        Team team = null;
+        if (dto.getTeamId() != null) {
+            team = teamRepository.findById(dto.getTeamId()).orElse(null);
+            if (team == null) {
+                return ResponseEntity.notFound().build();
+            }
+        }
+
+        Player toSave = PlayerMapper.toEntity(dto, team);
         Player saved = playerRepository.save(toSave);
-        return PlayerMapper.toDto(saved);
+        return ResponseEntity.status(HttpStatus.CREATED).body(PlayerMapper.toDto(saved));
     }
 }

@@ -35,6 +35,14 @@ public class PlayerMapper {
         return player;
     }
 
+    public static Player toEntity(PlayerDTO dto, Team team) {
+        Player player = toEntity(dto);
+        if (player != null) {
+            player.setTeam(team);
+        }
+        return player;
+    }
+
     public static List<PlayerDTO> toDtoList(List<Player> players) {
         if (players == null) return java.util.Collections.emptyList();
         return players.stream()
