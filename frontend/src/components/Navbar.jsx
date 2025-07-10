@@ -39,6 +39,9 @@ function Navbar() {
               <Link to="/" className="hover:underline">
                 Home
               </Link>
+              <Link to="/tournaments" className="hover:underline">
+                Tournaments
+              </Link>
               <Link to="/create" className="hover:underline">
                 Create Tournament
               </Link>
@@ -53,6 +56,12 @@ function Navbar() {
         <div className="px-2 pt-2 pb-3 space-y-1 md:hidden">
           <Link to="/" className="block px-3 py-2 hover:bg-gray-700 rounded-md">
             Home
+          </Link>
+          <Link
+            to="/tournaments"
+            className="block px-3 py-2 hover:bg-gray-700 rounded-md"
+          >
+            Tournaments
           </Link>
           <Link
             to="/create"
