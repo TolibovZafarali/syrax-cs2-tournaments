@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 
@@ -13,20 +15,22 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class AdminDetailsService implements UserDetailsService {
 
+    private static final Logger log = LoggerFactory.getLogger(AdminDetailsService.class);
+
     private final AdminRepository adminRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("🔍 Attempting login for: " + username);
+        log.debug("🔍 Attempting login for: {}", username);
 
         Admin admin = adminRepository.findByUsername(username)
                 .orElseThrow(() -> {
-                    System.out.println("❌ Admin not found");
+                    log.info("❌ Admin not found");
                     return new UsernameNotFoundException("Admin not found");
                 });
 
-        System.out.println("✅ Admin found: " + admin.getUsername());
-        System.out.println("✅ Password (hashed): " + admin.getPassword());
+        log.debug("✅ Admin found: {}", admin.getUsername());
+        log.debug("✅ Password (hashed): {}", admin.getPassword());
 
         return new User(
                 admin.getUsername(),
