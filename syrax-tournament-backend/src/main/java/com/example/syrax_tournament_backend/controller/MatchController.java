@@ -21,8 +21,9 @@ public class MatchController {
     private final MatchRepository matchRepository;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MatchDTO> getAllMatches() {
-        return MatchMapper.toDtoList(matchRepository.findAll());
+    public ResponseEntity<List<MatchDTO>> getAllMatches() {
+        List<MatchDTO> matches = MatchMapper.toDtoList(matchRepository.findAll());
+        return ResponseEntity.ok(matches);
     }
 
     @GetMapping(
