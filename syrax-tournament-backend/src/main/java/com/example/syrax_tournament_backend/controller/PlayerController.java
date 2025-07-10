@@ -6,6 +6,7 @@ import com.example.syrax_tournament_backend.model.Player;
 import com.example.syrax_tournament_backend.model.Team;
 import com.example.syrax_tournament_backend.repository.PlayerRepository;
 import com.example.syrax_tournament_backend.repository.TeamRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
