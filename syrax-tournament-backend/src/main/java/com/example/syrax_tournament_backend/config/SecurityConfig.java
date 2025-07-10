@@ -21,12 +21,12 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").authenticated()
+                        .requestMatchers("/api/admin/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .authenticationProvider(authenticationProvider())  // ✅ This is required
                 .formLogin(login -> login
-                        .defaultSuccessUrl("/admin", true)
+                        .defaultSuccessUrl("/api/admin", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
