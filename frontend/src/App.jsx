@@ -5,6 +5,8 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import Teams from './pages/Teams';
+import TournamentsPage from './pages/TournamentsPage.jsx';
+import TournamentDetails from './pages/TournamentDetails.jsx';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/teams" element={<Teams />} />
+        <Route path="/tournaments" element={<TournamentsPage />} />
+        <Route path="/tournaments/:id" element={<TournamentDetails />} />
       </Routes>
     </Router>
   );
