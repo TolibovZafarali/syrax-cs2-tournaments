@@ -87,4 +87,74 @@ Syrax CS2 Tournaments enables:
 
 ## 📬 API Endpoints
 
-### Tournament
+### Tournaments
+`/api/tournaments`
+  - `GET` list tournaments
+  - `GET /{id}` get tournament by id
+  - `POST` create tournament
+  - `PUT /{id}` update tournament
+  - `DELETE /{id}` delete tournament
+
+### Teams
+`/api/teams`
+  - `POST` create a team
+`/api/teams/tournament/{tournamentId}`
+  - `GET` list teams for a tournament
+
+### Players
+`/api/players`
+  - `GET` list players
+  - `POST` create player
+`/api/players/{id}`
+  - `GET` get player by id
+
+### Matches
+`/api/matches`
+  - `GET` list matches
+  - `POST` create match
+`/api/matches/{id}`
+  - `GET` get match by id
+  - `PUT` update match
+  - `DELETE` delete match
+
+### Admin
+`/api/admin`
+  - `GET` admin welcome message
+
+---
+
+## 🔧 Requirements
+
+### Backend
+* Java 21+
+* Maven (the project includes a Maven Wrapper)
+
+### Frontend
+* Node.js and npm
+
+## 💻 Running the Backend
+
+```bash
+cd syrax-tournament-backend
+./mvnw spring-boot:run
+```
+
+## 💻 Running the Frontend
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+## 🗄 Environment Variables
+
+The backend connects to a MySQL database. You can override the default
+`application.properties` values via environment variables:
+
+| Variable | Description |
+| -------- | ----------- |
+| `SPRING_DATASOURCE_URL` | JDBC connection URL |
+| `SPRING_DATASOURCE_USERNAME` | Database user |
+| `SPRING_DATASOURCE_PASSWORD` | Database password |
+
